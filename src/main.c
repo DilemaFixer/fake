@@ -7,12 +7,11 @@ extern size_t current_task;
 
  void task1(void *data) {
     char *name = (char*)data;
-    for (int i = 0; i <= 3; i++) {
+    for (int i = 0; i <= 5; i++) {
         printf("%s: iteration %d\n", name, i);
         yield();
     }
     printf("%s: done\n", name);
-    return;
 }
 
 void task2(void *data) {

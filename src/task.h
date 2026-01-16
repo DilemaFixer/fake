@@ -22,8 +22,6 @@ typedef struct task_stack_t {  // переименовано
 typedef struct task_t {
     ctx_t ctx;
     task_stack_t stack; 
-    void *data;
-    void (*instr)(void*);  // ← Добавляем это поле
 } task_t;
 
 extern arr_t* tasks;

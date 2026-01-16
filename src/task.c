@@ -43,10 +43,12 @@ void __attribute__((naked)) switch_context(task_t *from, task_t *to) {
 static void __attribute__((naked)) task_trampoline(void) {
     asm volatile(
         "mov x0, x19\n"                 // x0 = data
-        "blr x20\n"                     // вызов task1
-        "br x21\n"
+        "mov x30, x21\n"                // in the end , will jump to handle_task_end
+        "br x20\n"                     // call
+        //"br x21\n" //add this line , if remove "move x30, x21\n" will work the same
     );
 }
+
 
 void go_task(task_t *task, void(*instr)(void*), void *data) {
     ctx_t *ctx = &task->ctx;
@@ -70,7 +72,7 @@ void go_task(task_t *task, void(*instr)(void*), void *data) {
 }
 
 void handle_task_end(void) {
-    printf("=== bla bla bla bla ===\n\n");
+    printf("=== handle_task_end func was call ===\n\n");
     task_t *finished_task = (task_t*)tasks->items[current_task];
 
     arr_remove(tasks, current_task);
